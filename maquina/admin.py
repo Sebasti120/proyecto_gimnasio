@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import Equipo
 
-# Register your models here.
+@admin.register(Equipo)
+class EquipoAdmin(admin.ModelAdmin):
+    list_display = ('id_equipo', 'categoria', 'marca', 'ubicacion', 'numero_serie', 'estado', 'id_gimnasio')
+    list_filter = ('categoria', 'estado')
+    search_fields = ('marca', 'numero_serie', 'categoria')
