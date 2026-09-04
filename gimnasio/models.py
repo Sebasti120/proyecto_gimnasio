@@ -1,10 +1,5 @@
 from django.db import models
 
-class rutina (models.model) :
-    id_rutina: models.AutoField (primary_key=True)
-    categoria: models.
-    nombre_rutina: models.CharField (max_length=50)
-    
 class DetalleRutina(models.Model):
     id_detalle_rutina = models.AutoField(primary_key=True)
     id_rutina = models.ForeignKey(Rutina, on_delete=models.CASCADE, related_name='detalles')
@@ -28,6 +23,7 @@ class SesionEntrenamiento(models.Model):
         CANCELADA = 'cancelada', 'Cancelada'
 
     id_sesion = models.AutoField(primary_key=True)
+    id_rutina = models.ForeignKey(Rutina, on_delete=models.CASCADE, related_name='sesiones', null=True, blank=True)
     fecha = models.DateField()
     hora_inicio = models.TimeField()
     hora_fin = models.TimeField()
@@ -38,4 +34,4 @@ class SesionEntrenamiento(models.Model):
     )
 
     def __str__(self):
-        return f"Sesión {self.id_sesion} - {self.get_estado_display()}"
+        return f"Sesion {self.id_sesion} ({self.get_estado_display()})"
