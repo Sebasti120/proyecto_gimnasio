@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Equipos</title>
+</head>
+<body>
+    <h1>Equipos del Gimnasio</h1>
+    <ul>
+        {% for equipo in equipos %}
+            <li>
+                <strong>{{ equipo.nombre }}</strong> - Estado: {{ equipo.get_estado_display }}
+            </li>
+        {% empty %}
+            <li>No hay equipos registrados aún.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
