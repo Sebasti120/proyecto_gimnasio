@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'maquina'
+    'maquina',
+    'gimnasio.apps.GimnasioConfig',
 ]
 # proyecto_gimnasio/settings.py
 

@@ -20,3 +20,4 @@ class Mantenimiento(models.Model):
 
     def __str__(self):
         return f"Mantenimiento de {self.equipo.nombre} - {self.estado}"
+    
