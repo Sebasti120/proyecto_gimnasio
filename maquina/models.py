@@ -23,4 +23,9 @@ class Mantenimiento(models.Model):
     estado = models.CharField(max_length=50, default='pendiente')
 
     def __str__(self):
+<<<<<<< HEAD
         return f"Mantenimiento {self.equipo.categoria} - {self.fecha_mantenimiento}"
+=======
+        return f"Mantenimiento de {self.equipo.nombre} - {self.estado}"
+    
+>>>>>>> David
