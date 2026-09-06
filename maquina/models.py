@@ -13,7 +13,7 @@ class Equipo(models.Model):
         return f"{self.marca} - {self.categoria} ({self.numero_serie})"
     
 class Mantenimiento(models.Model):
-    #equipo = models.ForeignKey(Equipo, on_delete=models.CASCADE) # Relación con equipo
+    equipo = models.ForeignKey(Equipo, on_delete=models.CASCADE) # Relación con equipo
     descripcion_problema = models.TextField()                    
     fecha_reporte = models.DateField(auto_now_add=True)          
     estado = models.CharField(max_length=50, default='Pendiente')
