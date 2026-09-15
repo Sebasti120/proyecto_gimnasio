@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'maquina',
     'gimnasio.apps.GimnasioConfig',
+    'gimnasioapp.apps.GimnasioappConfig',
+
 ]
 # proyecto_gimnasio/settings.py
 
@@ -130,3 +132,8 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+# Configuración del modelo de usuario ORM personalizado para el sistema del gimnasio
+AUTH_USER_MODEL = 'gimnasioapp.Usuario'
+
+

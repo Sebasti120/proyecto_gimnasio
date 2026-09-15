@@ -10,3 +10,8 @@ def lista_equipos(request):
 def historial_mantenimiento(request):
     mantenimientos = Mantenimiento.objects.select_related('equipo').all().order_by('-fecha_mantenimiento')
     return render(request, 'maquina/historial_mantenimiento.html', {'mantenimientos': mantenimientos})
+
+def home(request):
+    return render('request','maquina/home.html')
+
+
