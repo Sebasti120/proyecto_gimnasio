@@ -18,6 +18,5 @@ class Mantenimiento(models.Model):
     fecha_reporte = models.DateField(auto_now_add=True)
     estado = models.CharField(max_length=50, default='Pendiente')
 
-    def __str__(self):
-        return f"Mantenimiento de {self.equipo.nombre} - {self.estado}"
-    
+def __str__(self):
+    return f"Mantenimiento de {self.equipo.marca} - {self.estado}"

@@ -1,6 +1,11 @@
-from django.shortcuts import render
-from .models import Equipo
+from rest_framework import viewsets
+from .models import Equipo, Mantenimiento
+from .serializers import EquipoSerializer, MantenimientoSerializer
 
-def lista_equipos(request):
-    equipos = Equipo.objects.all()
-    return render(request, 'maquina/lista_equipos.html', {'equipos': equipos})
+class EquipoViewSet(viewsets.ModelViewSet):
+    queryset = Equipo.objects.all()
+    serializer_class = EquipoSerializer
+
+class MantenimientoViewSet(viewsets.ModelViewSet):
+    queryset = Mantenimiento.objects.all()
+    serializer_class = MantenimientoSerializer
