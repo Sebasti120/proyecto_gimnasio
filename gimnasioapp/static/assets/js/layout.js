@@ -1,32 +1,26 @@
-/* =====================================================
-   SENA Gym — Layout compartido (inyectado por JS)
-   Cada página llama a SENA.initLayout({ active: '...', breadcrumb: '...' })
-   y este script inyecta sidebar + topbar + backdrop automáticamente.
-   ===================================================== */
-
 (function () {
     'use strict';
 
     const NAV_ITEMS = [
         { type: 'section', label: 'Principal' },
-        { href: '../index.html',   icon: 'bi-grid-1x2-fill',     label: 'Dashboard',     id: 'dashboard' },
-        { href: 'rutinas.html',    icon: 'bi-clipboard2-pulse',  label: 'Rutinas',       id: 'rutinas' },
-        { href: 'ejercicios.html', icon: 'bi-activity',          label: 'Ejercicios',    id: 'ejercicios' },
-        { href: 'entrenamientos.html', icon: 'bi-stopwatch',     label: 'Entrenamientos', id: 'entrenamientos' },
+        { href: '/', icon: 'bi-grid-1x2-fill', label: 'Dashboard', id: 'dashboard' },
+        { href: '/rutinas/', icon: 'bi-clipboard2-pulse', label: 'Rutinas', id: 'rutinas' },
+        { href: '/ejercicios/', icon: 'bi-activity', label: 'Ejercicios', id: 'ejercicios' },
+        { href: '/entrenamientos/', icon: 'bi-stopwatch', label: 'Entrenamientos', id: 'entrenamientos' },
 
         { type: 'section', label: 'Recursos' },
-        { href: 'equipos.html',    icon: 'bi-tools',             label: 'Equipos',         id: 'equipos',   badge: '75' },
-        { href: 'mantenimiento.html', icon: 'bi-wrench-adjustable-circle-fill', label: 'Mantenimiento', id: 'mantenimiento', badge: '4' },
-        { href: 'espacios.html',   icon: 'bi-geo-alt-fill',      label: 'Espacios',        id: 'espacios' },
-        { href: 'inventario.html', icon: 'bi-box-seam',          label: 'Inventario',      id: 'inventario' },
+        { href: '/equipos/', icon: 'bi-tools', label: 'Equipos', id: 'equipos', badge: '75' },
+        { href: '/mantenimiento/', icon: 'bi-wrench-adjustable-circle-fill', label: 'Mantenimiento', id: 'mantenimiento', badge: '4' },
+        { href: '/espacios/', icon: 'bi-geo-alt-fill', label: 'Espacios', id: 'espacios' },
+        { href: '/inventario/', icon: 'bi-box-seam', label: 'Inventario', id: 'inventario' },
 
         { type: 'section', label: 'Personas' },
-        { href: 'usuarios.html',   icon: 'bi-people-fill',       label: 'Usuarios',        id: 'usuarios',  badge: '320' },
-        { href: 'ingresos.html',   icon: 'bi-fingerprint',       label: 'Control de ingreso', id: 'ingresos' },
-        { href: 'valoracion.html', icon: 'bi-heart-pulse-fill',  label: 'Valoración física', id: 'valoracion' },
+        { href: '/usuarios/', icon: 'bi-people-fill', label: 'Usuarios', id: 'usuarios', badge: '320' },
+        { href: '/ingresos/', icon: 'bi-fingerprint', label: 'Control de ingreso', id: 'ingresos' },
+        { href: '/valoracion/', icon: 'bi-heart-pulse-fill', label: 'Valoración física', id: 'valoracion' },
 
         { type: 'section', label: 'Sistema' },
-        { href: 'informacion.html', icon: 'bi-info-circle-fill', label: 'Información',    id: 'informacion' }
+        { href: '/informacion/', icon: 'bi-info-circle-fill', label: 'Información', id: 'informacion' }
     ];
 
     function escapeHtml(s) {
@@ -99,29 +93,13 @@
         '</header>';
     }
 
-    /**
-     * Inicializa el layout compartido.
-     * Llamar en cada página antes del cierre del body.
-     *
-     * @param {Object} opts
-     * @param {string} opts.active   - id del item activo (coincide con NAV_ITEMS[i].id)
-     * @param {string} opts.title    - título H1 de la página (opcional, default = label del item)
-     * @param {string} opts.subtitle - subtítulo del page header
-     * @param {boolean} opts.inRoot  - true si la página vive en la raíz del proyecto (index.html)
-     *                                 En ese caso los href se prefijan con "pages/".
-     *                                 Default: false (página dentro de /pages).
-     */
     window.SENA = window.SENA || {};
     window.SENA.initLayout = function (opts) {
         opts = opts || {};
         const activeId = opts.active || 'dashboard';
-        const prefix = opts.inRoot ? 'pages/' : '';
 
-        // Re-escribir NAV_ITEMS con prefijo según contexto
-        const navItems = NAV_ITEMS.map(item => {
-            if (item.type === 'section') return item;
-            return Object.assign({}, item, { href: prefix + item.href });
-        });
+        // Usamos los NAV_ITEMS directamente sin modificar prefijos de carpetas
+        const navItems = NAV_ITEMS;
 
         const sidebarHost = document.getElementById('app-sidebar-host');
         const topbarHost  = document.getElementById('app-topbar-host');
