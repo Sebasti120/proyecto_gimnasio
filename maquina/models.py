@@ -1,7 +1,9 @@
 from django.db import models
+from pydantic import BaseModel
 
 class Equipo(models.Model):
     id_equipo = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
     marca = models.CharField(max_length=100, default='')
     ubicacion = models.CharField(max_length=150, default='')
     categoria = models.CharField(max_length=100)
