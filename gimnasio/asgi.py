@@ -14,5 +14,12 @@ app = FastAPI(title="API Gimnasio")
 def ping():
     return {"status": "ok", "framework": "FastAPI"}
 
+@app.get("/maquina")
+def get_maquina():
+    return {
+        "id": 1,
+        "ubicacion": "quebrajacho"
+    }
+
 # 3. Montar Django en la raíz para servir el resto de vistas y admin
 app.mount("/", django_app)
