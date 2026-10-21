@@ -1,0 +1,297 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios · SENA Gym</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+</head>
+<body>
+
+<div class="app-layout">
+    <div id="app-sidebar-host"></div>
+    <div id="app-topbar-host"></div>
+
+    <main class="app-main">
+        <div class="page-header">
+            <div class="page-header-content">
+                <h1 id="page-title">Usuarios</h1>
+                <p id="page-subtitle">Gestión de aprendices, instructores y miembros del gimnasio</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn-app outline" onclick="showToast('Generando reporte...')"><i class="bi bi-file-earmark-pdf"></i> Reporte</button>
+                <button class="btn-app primary" onclick="openUserModal()"><i class="bi bi-plus-lg"></i> Nuevo usuario</button>
+            </div>
+        </div>
+
+        <div class="page-content">
+
+            <!-- KPIs del módulo -->
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6 col-lg-3 fade-in-up">
+                    <div class="stat-card">
+                        <div class="stat-card-icon green"><i class="bi bi-people"></i></div>
+                        <div class="stat-card-body">
+                            <p class="stat-card-value">245</p>
+                            <p class="stat-card-label">Usuarios activos</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3 fade-in-up">
+                    <div class="stat-card">
+                        <div class="stat-card-icon blue"><i class="bi bi-person-badge"></i></div>
+                        <div class="stat-card-body">
+                            <p class="stat-card-value">198</p>
+                            <p class="stat-card-label">Aprendices</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3 fade-in-up">
+                    <div class="stat-card">
+                        <div class="stat-card-icon orange"><i class="bi bi-person-workspace"></i></div>
+                        <div class="stat-card-body">
+                            <p class="stat-card-value">12</p>
+                            <p class="stat-card-label">Instructores</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3 fade-in-up">
+                    <div class="stat-card">
+                        <div class="stat-card-icon purple"><i class="bi bi-person-exclamation"></i></div>
+                        <div class="stat-card-body">
+                            <p class="stat-card-value">35</p>
+                            <p class="stat-card-label">Inactivos / Pendientes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de usuarios -->
+            <div class="card-app">
+                <div class="card-app-header">
+                    <h3><i class="bi bi-list-ul"></i> Listado de usuarios</h3>
+                    <div class="table-toolbar" style="margin: 0;">
+                        <div class="filters">
+                            <input type="search" class="filter-input" id="filter-search" placeholder="Buscar por nombre o documento...">
+                            <select class="filter-select" id="filter-role">
+                                <option value="">Todos los roles</option>
+                                <option>Aprendiz</option>
+                                <option>Instructor</option>
+                                <option>Administrador</option>
+                            </select>
+                            <select class="filter-select" id="filter-status">
+                                <option value="">Todos los estados</option>
+                                <option>Activo</option>
+                                <option>Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-app-body no-padding">
+                    <div class="table-responsive">
+                        <table class="table-app" id="tbl-usuarios">
+                            <thead>
+                                <tr>
+                                    <th>Documento</th>
+                                    <th>Nombre completo</th>
+                                    <th>Rol</th>
+                                    <th>Ficha / Programa</th>
+                                    <th>Correo electrónico</th>
+                                    <th>Teléfono</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1072345678</td>
+                                    <td class="cell-strong">Harold Orjuela</td>
+                                    <td><span class="badge-status blue">Aprendiz</span></td>
+                                    <td>3293804 (ADSO)</td>
+                                    <td>harold@sena.edu.co</td>
+                                    <td>310 123 4567</td>
+                                    <td><span class="badge-status green"><i class="bi bi-circle-fill"></i> Activo</span></td>
+                                    <td>
+                                        <button class="icon-btn" title="Ver detalle" onclick="showToast('Abriendo detalle...')"><i class="bi bi-eye"></i></button>
+                                        <button class="icon-btn" title="Editar" onclick="openUserModal()"><i class="bi bi-pencil"></i></button>
+                                        <button class="icon-btn danger" title="Eliminar" onclick="deleteRow(this)"><i class="bi bi-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1072987654</td>
+                                    <td class="cell-strong">Carlos Ramírez</td>
+                                    <td><span class="badge-status purple">Instructor</span></td>
+                                    <td>Planta Física</td>
+                                    <td>cramirez@sena.edu.co</td>
+                                    <td>320 987 6543</td>
+                                    <td><span class="badge-status green"><i class="bi bi-circle-fill"></i> Activo</span></td>
+                                    <td>
+                                        <button class="icon-btn"><i class="bi bi-eye"></i></button>
+                                        <button class="icon-btn"><i class="bi bi-pencil"></i></button>
+                                        <button class="icon-btn danger"><i class="bi bi-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1072456789</td>
+                                    <td class="cell-strong">Andrea López</td>
+                                    <td><span class="badge-status blue">Aprendiz</span></td>
+                                    <td>3293804 (ADSO)</td>
+                                    <td>alopez@sena.edu.co</td>
+                                    <td>315 456 7890</td>
+                                    <td><span class="badge-status green"><i class="bi bi-circle-fill"></i> Activo</span></td>
+                                    <td>
+                                        <button class="icon-btn"><i class="bi bi-eye"></i></button>
+                                        <button class="icon-btn"><i class="bi bi-pencil"></i></button>
+                                        <button class="icon-btn danger"><i class="bi bi-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1072111222</td>
+                                    <td class="cell-strong">Miguel Torres</td>
+                                    <td><span class="badge-status blue">Aprendiz</span></td>
+                                    <td>3293805 (Multimedia)</td>
+                                    <td>mtorres@sena.edu.co</td>
+                                    <td>318 111 2233</td>
+                                    <td><span class="badge-status orange"><i class="bi bi-circle-fill"></i> Inactivo</span></td>
+                                    <td>
+                                        <button class="icon-btn"><i class="bi bi-eye"></i></button>
+                                        <button class="icon-btn"><i class="bi bi-pencil"></i></button>
+                                        <button class="icon-btn danger"><i class="bi bi-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination-app">
+                        <div>Mostrando <strong>1–4</strong> de <strong>245</strong> usuarios</div>
+                        <div class="page-numbers">
+                            <button disabled><i class="bi bi-chevron-left"></i></button>
+                            <button class="active">1</button>
+                            <button>2</button>
+                            <button>3</button>
+                            <button>...</button>
+                            <button>35</button>
+                            <button><i class="bi bi-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Modal de creación/edición de usuario -->
+<div class="modal fade" id="userModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 14px; border: none;">
+            <div class="modal-header" style="border-bottom: 1px solid var(--gray-300);">
+                <h5 class="modal-title" style="font-weight: 700;"><i class="bi bi-person-plus me-2" style="color: var(--sena-green-dark);"></i><span id="modal-title">Nuevo usuario</span></h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-user" onsubmit="return saveUser(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Documento de identidad<span class="required">*</span></label>
+                            <input type="text" class="form-control-app" name="documento" required placeholder="Ej: 1072345678">
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre completo<span class="required">*</span></label>
+                            <input type="text" class="form-control-app" name="nombre" required placeholder="Ej: Harold Orjuela">
+                        </div>
+                        <div class="form-group">
+                            <label>Rol<span class="required">*</span></label>
+                            <select class="form-control-app" name="rol" required>
+                                <option value="">Seleccionar...</option>
+                                <option>Aprendiz</option>
+                                <option>Instructor</option>
+                                <option>Administrador</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ficha / Programa</label>
+                            <input type="text" class="form-control-app" name="ficha" placeholder="Ej: 3293804 (ADSO)">
+                        </div>
+                        <div class="form-group">
+                            <label>Correo electrónico<span class="required">*</span></label>
+                            <input type="email" class="form-control-app" name="correo" required placeholder="Ej: correo@sena.edu.co">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="text" class="form-control-app" name="telefono" placeholder="Ej: 310 123 4567">
+                        </div>
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <select class="form-control-app" name="estado">
+                                <option>Activo</option>
+                                <option>Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="border-top: 1px solid var(--gray-300);">
+                <button class="btn-app outline" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn-app primary" onclick="document.getElementById('form-user').requestSubmit()"><i class="bi bi-check2"></i> Guardar usuario</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'assets/js/app.js' %}"></script>
+<script src="{% static 'assets/js/layout.js' %}"></script>
+<script>
+    SENA.initLayout({
+        active: 'usuarios',
+        subtitle: 'Gestión de aprendices, instructores y miembros del gimnasio'
+    });
+
+    // Filtros
+    function applyFilters() {
+        const q = document.getElementById('filter-search').value.toLowerCase();
+        const rol = document.getElementById('filter-role').value;
+        const estado = document.getElementById('filter-status').value;
+        document.querySelectorAll('#tbl-usuarios tbody tr').forEach(row => {
+            const text = row.textContent.toLowerCase();
+            const rowRol = row.cells[2].textContent.trim();
+            const rowEstado = row.cells[6].textContent.trim();
+            const matchesQ = !q || text.includes(q);
+            const matchesRol = !rol || rowRol === rol;
+            const matchesEstado = !estado || rowEstado.includes(estado);
+            row.style.display = (matchesQ && matchesRol && matchesEstado) ? '' : 'none';
+        });
+    }
+    document.getElementById('filter-search').addEventListener('input', applyFilters);
+    document.getElementById('filter-role').addEventListener('change', applyFilters);
+    document.getElementById('filter-status').addEventListener('change', applyFilters);
+
+    // Modal
+    function openUserModal() {
+        document.getElementById('modal-title').textContent = 'Nuevo usuario';
+        document.getElementById('form-user').reset();
+        new bootstrap.Modal(document.getElementById('userModal')).show();
+    }
+
+    function saveUser(e) {
+        e.preventDefault();
+        bootstrap.Modal.getInstance(document.getElementById('userModal')).hide();
+        showToast('Usuario guardado correctamente', { icon: 'bi-check-circle-fill' });
+        return false;
+    }
+
+    function deleteRow(btn) {
+        if (confirmAction('¿Eliminar este usuario?')) {
+            btn.closest('tr').remove();
+            showToast('Usuario eliminado', { icon: 'bi-trash-fill' });
+        }
+    }
+</script>
+</body>
+</html>
